@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<title>Boys Council of 52</title>
+
+<style>
+:root {
+    --bg: #f0f2f5;
+    --card: #ffffff;
+    --text: #050505;
+    --border: #ddd;
+    --blue: #1877f2;
+    --yellow: #f5a623;
+}
+
+.dark {
+    --bg: #18191a;
+    --card: #242526;
+    --text: #e4e6eb;
+    --border: #3a3b3c;
+}
+
+body {
+    margin: 0;
+    font-family: Arial;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+.topbar {
+    background: var(--card);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.4s ease, border 0.4s ease;
+}
+
+.menu-btn, .dark-btn {
+    cursor: pointer;
+}
+
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--card);
+    overflow-x: hidden;
+    transition: width 0.3s ease, background 0.4s ease;
+    padding-top: 60px;
+    border-right: 1px solid var(--border);
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.3s ease, color 0.4s ease;
+}
+
+.sidebar a:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: background 0.4s ease, border 0.4s ease;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logo-small {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.post-title {
+    font-weight: bold;
+}
+
+.post-date {
+    font-size: 12px;
+    color: gray;
+}
+
+.section { display: none; }
+
+.blue { color: var(--blue); }
+.yellow { color: var(--yellow); }
+
+/* GISHUUD STYLE */
+.members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.member-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.member-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.member-name {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.member-role {
+    font-size: 12px;
+    color: gray;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div id="menu" class="sidebar">
+    <a href="#" onclick="showHome()">Нүүр хуудас</a>
+    <a href="#" onclick="showSection('medee')">Мэдээ</a>
+    <a href="#" onclick="showSection('namtar')">Намтар</a>
+    <a href="#" onclick="showSection('zorilgo')">Зорилго</a>
+    <a href="#" onclick="showSection('gishuud')">Гишүүд</a>
+</div>
+
+<!-- Topbar -->
+<div class="topbar">
+    <span class="menu-btn" onclick="toggleMenu()">☰</span>
+    <span class="dark-btn" onclick="toggleDark()">Dark mode</span>
+</div>
+
+<!-- HOME -->
+<div id="home" class="container">
+    <div class="card" style="text-align:center;">
+        <div class="header">
+            <img src="logo.png" class="logo-small">
+            <h2>
+                <span class="blue">Boys</span>
+                <span class="yellow">Council</span> of 52
+            </h2>
+        </div>
+        <p>Манай клуб бол нэгдэл, хүч, хөгжилд чиглэсэн байгууллага.</p>
+    </div>
+</div>
+
+<!-- МЭДЭЭ -->
+<div id="medee" class="container section">
+    <div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+<div class="card">
+        <div class="post-title">Boys Council</div>
+        <div class="post-date">2026-04-21</div>
+        <div>манай клуб шинэ.</div>
+    </div>
+
+</div>
+
+<!-- NAMTAR -->
+<div id="namtar" class="container section">
+    <div class="card">
+        <h3>Намтар</h3>
+        <p>Манай клуб 2023 онд байгуулагдсан...</p>
+    </div>
+</div>
+
+<!-- ZORILGO -->
+<div id="zorilgo" class="container section">
+    <div class="card">
+        <h3>Зорилго</h3>
+        <p>Бидний зорилго бол гишүүдээ хөгжүүлэх...</p>
+    </div>
+</div>
+
+<!-- GISHUUD -->
+<div id="gishuud" class="container section">
+<div class="card">
+<h3>Гишүүд</h3>
+
+<div class="members-grid">
+<div class="member-card"><img src="1.png"><div class="member-name">Овог Нэр</div><div class="member-role">Тэргүүн</div></div>
+<div class="member-card"><img src="2.png"><div class="member-name">Овог Нэр</div><div class="member-role">Дэд Тэргүүн</div></div>
+<div class="member-card"><img src="3.png"><div class="member-name">Овог Нэр</div><div class="member-role">Нарийн бичиг</div></div>
+<div class="member-card"><img src="4.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гүйцэтгэх нарийн бичиг</div></div>
+
+<div class="member-card"><img src="5.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="6.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="7.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="8.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="9.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="10.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="11.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="12.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="13.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="14.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="15.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="16.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="17.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="18.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="19.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="20.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="21.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="22.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="23.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="24.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="25.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="26.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="27.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="28.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="29.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="30.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="31.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="32.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="33.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="34.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="35.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="36.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="37.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="38.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="39.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card"><img src="40.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+</div>
+
+</div>
+</div>
+
+<script>
+function toggleMenu() {
+    let menu = document.getElementById("menu");
+    menu.style.width = (menu.style.width === "250px") ? "0" : "250px";
+}
+
+function showHome() {
+    document.getElementById("menu").style.width = "0"; // ✅ FIX
+    document.getElementById("home").style.display = "block";
+    document.querySelectorAll(".section").forEach(s => s.style.display="none");
+}
+
+function showSection(id) {
+    document.getElementById("menu").style.width = "0"; // ✅ FIX
+    document.getElementById("home").style.display = "none";
+    document.querySelectorAll(".section").forEach(s => s.style.display="none");
+    document.getElementById(id).style.display = "block";
+}
+
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
