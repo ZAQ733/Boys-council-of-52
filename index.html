@@ -33,17 +33,24 @@ body {
     padding: 12px 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center; /* нэм */
     border-bottom: 1px solid var(--border);
-    transition: background 0.4s ease, border 0.4s ease;
 }
 
 .menu-btn, .dark-btn {
     cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.dark-btn:hover {
+    background: rgba(0,0,0,0.1);
 }
 
 .sidebar {
     height: 100%;
-    width: 0;
+    width: 250px;
     position: fixed;
     top: 0;
     left: 0;
@@ -147,6 +154,7 @@ body {
 <!-- Sidebar -->
 <div id="menu" class="sidebar">
     <a href="#" onclick="showHome()">Нүүр хуудас</a>
+    <a href="#" onclick="showSection('terguulegchid')">Тэргүүлэгчид</a>
     <a href="#" onclick="showSection('medee')">Мэдээ</a>
     <a href="#" onclick="showSection('namtar')">Намтар</a>
     <a href="#" onclick="showSection('zorilgo')">Зорилго</a>
@@ -155,8 +163,8 @@ body {
 
 <!-- Topbar -->
 <div class="topbar">
-    <span class="menu-btn" onclick="toggleMenu()">☰</span>
-    <span class="dark-btn" onclick="toggleDark()">Dark mode</span>
+    <div></div>
+    <span class="dark-btn" onclick="toggleDark()"> Dark mode</span>
 </div>
 
 <!-- HOME -->
@@ -259,6 +267,40 @@ body {
     </div>
 </div>
 
+<div id="terguulegchid" class="container section">
+    <div class="card">
+        <h3>Тэргүүлэгчид</h3>
+
+        <div class="members-grid">
+
+            <div class="member-card">
+                <img src="100.png">
+                <div class="member-name">Б.Анир</div>
+                <div class="member-role">ad</div>
+            </div>
+
+            <div class="member-card">
+                <img src="102.png">
+                <div class="member-name">Д.Хүслэн</div>
+                <div class="member-role">Тэргүүн</div>
+            </div>
+             
+            <div class="member-card">
+                <img src="103.png">
+                <div class="member-name">Б.Намсрай</div>
+                <div class="member-role">Ad</div>
+            </div>
+
+            <div class="member-card">
+                <img src="101.png">
+                <div class="member-name">Б.Намсрай</div>
+                <div class="member-role">Ad</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <!-- GISHUUD -->
 <div id="gishuud" class="container section">
 <div class="card">
@@ -313,19 +355,13 @@ body {
 </div>
 
 <script>
-function toggleMenu() {
-    let menu = document.getElementById("menu");
-    menu.style.width = (menu.style.width === "250px") ? "0" : "250px";
-}
 
 function showHome() {
-    document.getElementById("menu").style.width = "0"; // ✅ FIX
     document.getElementById("home").style.display = "block";
     document.querySelectorAll(".section").forEach(s => s.style.display="none");
 }
 
 function showSection(id) {
-    document.getElementById("menu").style.width = "0"; // ✅ FIX
     document.getElementById("home").style.display = "none";
     document.querySelectorAll(".section").forEach(s => s.style.display="none");
     document.getElementById(id).style.display = "block";
