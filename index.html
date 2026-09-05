@@ -2,31 +2,59 @@
 <head>
 <meta charset="UTF-8">
 <title>Boys Council of 52</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+* { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
 :root {
     --bg: #f0f2f5;
-    --card: #ffffff;
+    --card: rgba(255, 255, 255, 0.85);
+    --card-solid: #ffffff;
     --text: #050505;
-    --border: #ddd;
+    --border: rgba(255, 255, 255, 0.35);
     --blue: #1877f2;
     --yellow: #f5a623;
 }
 
 .dark {
-    --bg: #18191a;
-    --card: #242526;
+    --bg: #0b0c0e;
+    --card: rgba(36, 37, 38, 0.65);
+    --card-solid: #242526;
     --text: #e4e6eb;
-    --border: #3a3b3c;
+    --border: rgba(255, 255, 255, 0.08);
 }
 
 body {
     margin: 0;
-    font-family: Arial;
-    background: var(--bg);
+    font-family: 'Manrope', Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
     color: var(--text);
-    transition: background 0.4s ease, color 0.4s ease;
+    min-height: 100vh;
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(180deg, rgba(5,6,8,0.55) 0%, rgba(5,6,8,0.75) 100%),
+        url("bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
+
+h2, h3 { letter-spacing: -0.01em; }
 
 .topbar {
     background: var(--card);
@@ -35,17 +63,26 @@ body {
     justify-content: space-between;
     align-items: center; /* нэм */
     border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 5;
 }
 
 .menu-btn, .dark-btn {
     cursor: pointer;
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 8px;
-    transition: 0.3s;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.25s ease, transform 0.15s ease;
 }
 
 .dark-btn:hover {
     background: rgba(0,0,0,0.1);
+}
+
+.dark-btn:active {
+    transform: scale(0.96);
 }
 
 .sidebar {
@@ -59,6 +96,7 @@ body {
     transition: width 0.3s ease, background 0.4s ease;
     padding-top: 60px;
     border-right: 1px solid var(--border);
+    z-index: 4;
 }
 
 .sidebar a {
@@ -66,11 +104,20 @@ body {
     padding: 14px 20px;
     text-decoration: none;
     color: var(--text);
-    transition: background 0.3s ease, color 0.4s ease;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, padding-left 0.25s ease;
 }
 
 .sidebar a:hover {
-    background: rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.08);
+    padding-left: 26px;
+}
+
+.sidebar a.active {
+    border-left-color: var(--blue);
+    background: rgba(24,119,242,0.12);
+    color: var(--blue);
 }
 
 .container {
@@ -80,13 +127,25 @@ body {
     padding: 0 15px;
 }
 
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section, #home {
+    animation: fadeSlideIn 0.4s ease;
+}
+
+.section { display: none; }
+
 .card {
-    background: var(--card);
+    background: rgba(0, 0, 0, 0.25);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 14px;
+    padding: 18px;
     margin-bottom: 15px;
-    transition: background 0.4s ease, border 0.4s ease;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    transition: background 0.4s ease, border 0.4s ease, transform 0.2s ease;
 }
 
 .header {
@@ -111,8 +170,6 @@ body {
     color: gray;
 }
 
-.section { display: none; }
-
 .blue { color: var(--blue); }
 .yellow { color: var(--yellow); }
 
@@ -126,9 +183,111 @@ body {
 .member-card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     padding: 10px;
     text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.member-card:active {
+    transform: scale(0.97);
+}
+
+/* MEMBER PROFILE POPOVER */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    display: none;
+    z-index: 50;
+}
+
+.modal-overlay.show {
+    display: block;
+}
+
+.profile-popover {
+    position: absolute;
+    background: var(--card-solid);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 14px 16px;
+    width: 230px;
+    max-width: calc(100vw - 20px);
+    box-shadow: 0 20px 55px rgba(0,0,0,0.45);
+    border: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.modal-overlay.show .profile-popover {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.modal-close:hover {
+    opacity: 1;
+}
+
+.profile-popover img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--blue);
+    float: left;
+    margin-right: 10px;
+}
+
+.modal-name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.modal-role {
+    color: var(--blue);
+    font-size: 12px;
+}
+
+.profile-popover table {
+    clear: both;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.profile-popover table td {
+    padding: 4px 0;
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+}
+
+.profile-popover table td:first-child {
+    color: gray;
+    padding-right: 8px;
+    white-space: nowrap;
+}
+
+.member-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.3);
 }
 
 .member-card img {
@@ -136,6 +295,11 @@ body {
     height: 160px;
     object-fit: cover;
     border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.member-card:hover img {
+    transform: scale(1.04);
 }
 
 .member-name {
@@ -147,6 +311,35 @@ body {
     font-size: 12px;
     color: gray;
 }
+
+@media (max-width: 720px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding-top: 0;
+        display: flex;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+    .sidebar a {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    .sidebar a:hover {
+        padding-left: 20px;
+    }
+    .sidebar a.active {
+        border-left-color: transparent;
+        border-bottom-color: var(--blue);
+    }
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 </style>
 </head>
 
@@ -154,12 +347,12 @@ body {
 
 <!-- Sidebar -->
 <div id="menu" class="sidebar">
-    <a href="#" onclick="showHome()">Нүүр хуудас</a>
-    <a href="#" onclick="showSection('terguulegchid')">Тэргүүлэгчид</a>
-    <a href="#" onclick="showSection('medee')">Мэдээ</a>
-    <a href="#" onclick="showSection('namtar')">Намтар</a>
-    <a href="#" onclick="showSection('zorilgo')">Зорилго</a>
-    <a href="#" onclick="showSection('gishuud')">Гишүүд</a>
+    <a href="#" class="nav-link active" data-target="home" onclick="showHome(this); return false;">Нүүр хуудас</a>
+    <a href="#" class="nav-link" data-target="terguulegchid" onclick="showSection('terguulegchid', this); return false;">Тэргүүлэгчид</a>
+    <a href="#" class="nav-link" data-target="medee" onclick="showSection('medee', this); return false;">Мэдээ</a>
+    <a href="#" class="nav-link" data-target="namtar" onclick="showSection('namtar', this); return false;">Намтар</a>
+    <a href="#" class="nav-link" data-target="zorilgo" onclick="showSection('zorilgo', this); return false;">Зорилго</a>
+    <a href="#" class="nav-link" data-target="gishuud" onclick="showSection('gishuud', this); return false;">Гишүүд</a>
 </div>
 
 <!-- Topbar -->
@@ -274,29 +467,13 @@ body {
 
         <div class="members-grid">
 
-            <div class="member-card">
-                <img src="100.png">
-                <div class="member-name">Б.Анир</div>
-                <div class="member-role">admin</div>
-            </div>
+            <div class="member-card" onclick="openMemberProfile(this)" data-name="Б.Анир" data-role="admin" data-img="100.png" data-info=""><img src="100.png"><div class="member-name">Б.Анир</div><div class="member-role">admin</div></div>
 
-            <div class="member-card">
-                <img src="102.png">
-                <div class="member-name">Д.Хүслэн</div>
-                <div class="member-role">Тэргүүн</div>
-            </div>
+            <div class="member-card" onclick="openMemberProfile(this)" data-name="Д.Хүслэн" data-role="Тэргүүн" data-img="102.png" data-info=""><img src="102.png"><div class="member-name">Д.Хүслэн</div><div class="member-role">Тэргүүн</div></div>
              
-            <div class="member-card">
-                <img src="103.png">
-                <div class="member-name">Б.Намсрай</div>
-                <div class="member-role">Ad</div>
-            </div>
+            <div class="member-card" onclick="openMemberProfile(this)" data-name="Б.Намсрай" data-role="Ad" data-img="103.png" data-info=""><img src="103.png"><div class="member-name">Б.Намсрай</div><div class="member-role">Ad</div></div>
 
-            <div class="member-card">
-                <img src="101.png">
-                <div class="member-name">Б.Намсрай</div>
-                <div class="member-role">Ad</div>
-            </div>
+            <div class="member-card" onclick="openMemberProfile(this)" data-name="Б.Намсрай" data-role="Ad" data-img="101.png" data-info=""><img src="101.png"><div class="member-name">Б.Намсрай</div><div class="member-role">Ad</div></div>
 
         </div>
     </div>
@@ -308,69 +485,192 @@ body {
 <h3>Гишүүд</h3>
 
 <div class="members-grid">
-<div class="member-card"><img src="69.png"><div class="member-name">Б.Анир</div><div class="member-role">Admin</div></div>    
-<div class="member-card"><img src="1.png"><div class="member-name">Д.Хүслэн</div><div class="member-role">Тэргүүн</div></div>
-<div class="member-card"><img src="2.png"><div class="member-name">Овог Нэр</div><div class="member-role">Дэд Тэргүүн</div></div>
-<div class="member-card"><img src="4.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гүйцэтгэх Нарийн бичиг</div></div>
-<div class="member-card"><img src="3.png"><div class="member-name">Б.Намсрай</div><div class="member-role">Нарийн бичиг</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Б.Анир" data-role="ZAQ" data-img="69.png" data-info="99111111"><img src="69.png"><div class="member-name">Б.Анир</div><div class="member-role">ZAQ</div></div>    
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Д.Хүслэн" data-role="Тэргүүн" data-img="1.png" data-info=""><img src="1.png"><div class="member-name">Д.Хүслэн</div><div class="member-role">Тэргүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Дэд Тэргүүн" data-img="2.png" data-info=""><img src="2.png"><div class="member-name">Овог Нэр</div><div class="member-role">Дэд Тэргүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гүйцэтгэх Нарийн бичиг" data-img="4.png" data-info=""><img src="4.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гүйцэтгэх Нарийн бичиг</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Б.Намсрай" data-role="Нарийн бичиг" data-img="3.png" data-info=""><img src="3.png"><div class="member-name">Б.Намсрай</div><div class="member-role">Нарийн бичиг</div></div>
 
 
-<div class="member-card"><img src="5.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="6.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="7.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="8.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="9.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="10.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="11.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="12.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="13.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="14.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="15.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="16.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="17.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="18.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="19.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="20.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="21.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="22.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="23.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="24.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="25.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="26.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="27.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="28.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="29.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="30.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="31.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="32.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="33.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="34.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="35.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="36.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="37.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="38.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
-<div class="member-card"><img src="39.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="5.png" data-info=""><img src="5.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="6.png" data-info=""><img src="6.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="7.png" data-info=""><img src="7.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="8.png" data-info=""><img src="8.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="9.png" data-info=""><img src="9.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="10.png" data-info=""><img src="10.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="11.png" data-info=""><img src="11.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="12.png" data-info=""><img src="12.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="13.png" data-info=""><img src="13.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="14.png" data-info=""><img src="14.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="15.png" data-info=""><img src="15.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="16.png" data-info=""><img src="16.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="17.png" data-info=""><img src="17.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="18.png" data-info=""><img src="18.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="19.png" data-info=""><img src="19.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="20.png" data-info=""><img src="20.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="21.png" data-info=""><img src="21.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="22.png" data-info=""><img src="22.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="23.png" data-info=""><img src="23.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="24.png" data-info=""><img src="24.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="25.png" data-info=""><img src="25.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="26.png" data-info=""><img src="26.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="27.png" data-info=""><img src="27.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="28.png" data-info=""><img src="28.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="29.png" data-info=""><img src="29.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="30.png" data-info=""><img src="30.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="31.png" data-info=""><img src="31.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="32.png" data-info=""><img src="32.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="33.png" data-info=""><img src="33.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="34.png" data-info=""><img src="34.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="35.png" data-info=""><img src="35.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="36.png" data-info=""><img src="36.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="37.png" data-info=""><img src="37.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="38.png" data-info=""><img src="38.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
+<div class="member-card" onclick="openMemberProfile(this)" data-name="Овог Нэр" data-role="Гишүүн" data-img="39.png" data-info=""><img src="39.png"><div class="member-name">Овог Нэр</div><div class="member-role">Гишүүн</div></div>
 </div>
 
 </div>
+</div>
+
+<!-- MEMBER PROFILE POPOVER -->
+<div id="memberModal" class="modal-overlay" onclick="if(event.target===this) closeMemberProfile()">
+    <div class="profile-popover" id="profilePopover">
+        <span class="modal-close" onclick="closeMemberProfile()">&times;</span>
+        <img id="modalImg" src="" alt="">
+        <div class="modal-name" id="modalName"></div>
+        <div class="modal-role" id="modalRole"></div>
+        <table>
+            <tbody id="modalInfoTable"></tbody>
+        </table>
+    </div>
 </div>
 
 <script>
 
-function showHome() {
-    document.getElementById("home").style.display = "block";
-    document.querySelectorAll(".section").forEach(s => s.style.display="none");
+function playEnterAnimation(el) {
+    el.style.animation = "none";
+    // Force reflow so the animation restarts each time the section is shown
+    void el.offsetWidth;
+    el.style.animation = "";
 }
 
-function showSection(id) {
+function setActiveLink(el) {
+    document.querySelectorAll(".nav-link").forEach(a => a.classList.remove("active"));
+    if (el) el.classList.add("active");
+}
+
+function showHome(el) {
+    document.getElementById("home").style.display = "block";
+    document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+    playEnterAnimation(document.getElementById("home"));
+    setActiveLink(el);
+}
+
+function showSection(id, el) {
     document.getElementById("home").style.display = "none";
-    document.querySelectorAll(".section").forEach(s => s.style.display="none");
-    document.getElementById(id).style.display = "block";
+    document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+    const target = document.getElementById(id);
+    target.style.display = "block";
+    playEnterAnimation(target);
+    setActiveLink(el);
 }
 
 function toggleDark() {
     document.body.classList.toggle("dark");
 }
+
+function addInfoRow(tbody, label, value) {
+    const tr = document.createElement("tr");
+    const td1 = document.createElement("td");
+    td1.textContent = label;
+    const td2 = document.createElement("td");
+    td2.textContent = value;
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tbody.appendChild(tr);
+}
+
+function addFreeTextRow(tbody, text) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 2;
+    td.textContent = text;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+}
+
+function positionPopover(el) {
+    const rect = el.getBoundingClientRect();
+    const pop = document.getElementById("profilePopover");
+    const popWidth = pop.offsetWidth || 230;
+    const popHeight = pop.offsetHeight || 160;
+
+    let left = rect.right + 12;
+    let top = rect.top;
+
+    if (left + popWidth > window.innerWidth - 10) {
+        left = rect.left - popWidth - 12;
+    }
+    if (left < 10) {
+        left = Math.min(rect.left, window.innerWidth - popWidth - 10);
+    }
+    if (top + popHeight > window.innerHeight - 10) {
+        top = window.innerHeight - popHeight - 10;
+    }
+    if (top < 10) top = 10;
+
+    pop.style.left = (left + window.scrollX) + "px";
+    pop.style.top = (top + window.scrollY) + "px";
+}
+
+function openMemberProfile(el) {
+    document.getElementById("modalImg").src = el.dataset.img;
+    document.getElementById("modalName").textContent = el.dataset.name;
+    document.getElementById("modalRole").textContent = el.dataset.role;
+
+    const tbody = document.getElementById("modalInfoTable");
+    tbody.innerHTML = "";
+    addInfoRow(tbody, "Нэр", el.dataset.name);
+    addInfoRow(tbody, "Албан тушаал", el.dataset.role);
+
+    // Нэмэлт мэдээлэл: 2 янзаар бичиж болно
+    // 1) Шошго|Утга хос хосоороо: data-info="Утас|9911-2233|И-мэйл|test@mail.com"
+    // 2) Эсвэл зүгээр дурын мөр мөрөөр (| тэмдэггүйгээр), жишээ нь:
+    //    data-info="Хамт олонд нэгдсэн: 2023
+    // Дуртай спорт: Бокс"
+    if (el.dataset.info && el.dataset.info.trim() !== "") {
+        const raw = el.dataset.info;
+        if (raw.includes("|")) {
+            const parts = raw.split("|");
+            for (let i = 0; i + 1 < parts.length; i += 2) {
+                addInfoRow(tbody, parts[i], parts[i + 1]);
+            }
+        } else {
+            raw.split("\n").forEach(function (line) {
+                line = line.trim();
+                if (line !== "") addFreeTextRow(tbody, line);
+            });
+        }
+    }
+
+    const overlay = document.getElementById("memberModal");
+    overlay.classList.add("show");
+    positionPopover(el);
+}
+
+function closeMemberProfile() {
+    document.getElementById("memberModal").classList.remove("show");
+}
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") closeMemberProfile();
+});
+
+window.addEventListener("resize", function () {
+    if (document.getElementById("memberModal").classList.contains("show")) {
+        closeMemberProfile();
+    }
+});
 </script>
 
 </body>
